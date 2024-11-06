@@ -12,15 +12,20 @@ class StudentController extends Controller
         
         $student = Student::all();
 
-        $data = [
-            'messege' => 'Get all students',
-            'data' => $student
-        ];
+        if ($student) {
+            $data = [
+                'message' => 'Get all students',
+                'data' => $student
+            ];
 
-        return response()->json($data, 200);
+            return response()->json($data, 200);
+        } else {
+            return response()->json(['message' => 'No students found'], 404);
+        }
     }
     
     public function store (Request $request) {
+        
         $input = [
             'nama' => $request->nama,
             'nim'=> $request->nim,
@@ -30,12 +35,16 @@ class StudentController extends Controller
 
         $student = Student::create($input);
 
-        $data = [
-            'messege' => 'Student is created successfully',
-            'data' => $student,
-        ];
+        if ($student) {
+            $data = [
+                'message' => 'Student is created successfully',
+                'data' => $student,
+            ];
 
-        return response()->json($data, 201);
+            return response()->json($data, 201);
+        } else {
+            return response()->json(['message' => 'Failed to create student'], 500);
+        }
     }
 
     public function update (Request $request, $id) {
@@ -44,12 +53,14 @@ class StudentController extends Controller
         
         if ($student) {
             
-            $student->update = ([
+            $input = [
                 'nama' => $request->nama ?? $student->nama,
                 'nim'=> $request->nim ?? $student->nim,
                 'email' => $request->email ?? $student->email,
                 'jurusan' => $request->jurusan ?? $student->jurusan
-            ]);
+            ];
+
+            $student->update($input);
 
             $data = [
                'messege' => 'Student is updated successfully',
@@ -78,7 +89,32 @@ class StudentController extends Controller
             return response()->json($data, 200);
         } else {
             
-            return response()->json(['message' => 'Student is not deleted successfully', 404]);
+            $data = [
+                'messege' => 'Student not found'
+            ];
+
+            return response()->json($data, 404);
+        }
+    }
+
+    public function show ($id) {
+        
+        $student = Student::find($id);
+
+        if ($student) {
+            
+            $data = [
+               'messege' => 'Get detail student',
+                'data' => $student,
+            ];
+
+            return response()->json($data, 200);
+        } else {
+            $data = [
+                'messege' => 'Student not found',
+            ];
+
+            return response()->json($data, 404);
         }
     }
 }
