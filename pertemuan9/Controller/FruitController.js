@@ -3,7 +3,7 @@
  * - import fruits dari data/fruits.js
  * - refactor variabel ke ES6 variable
  */
-var fruits = require('../data/fruits');
+const {fruits} = require('../data/fruits');
 
 /**
  * TODO 4:
@@ -13,7 +13,7 @@ var fruits = require('../data/fruits');
  *
  * @hint - Gunakan looping for of
  */
-function index () {
+const index = () => {
   for (const buah of fruits) {
     console.log(buah);
   }
@@ -29,7 +29,7 @@ function index () {
  *
  * @hint - Gunakan method push
  */
-function store(name) {
+const store = (name) => {
   fruits.push(name);
   index();
 };
@@ -43,7 +43,7 @@ function store(name) {
  * @param {number} position - Posisi atau index yang ingin diupdate.
  * @param {string} name - Nama buah yang baru.
  */
-function update(position, name) {
+const update = (position, name) => {
   if (position >= 0 && position < fruits.length) {
     fruits[position] = name;
     index();
@@ -62,7 +62,7 @@ function update(position, name) {
  *
  * @hint - Gunakan method splice
  */
-function destroy(position) {
+const destroy = (position) => {
   if (position >= 0 && position < fruits.length) {
     fruits.splice(position, 1);
     index();
